@@ -9,7 +9,7 @@ const Cat = () => {
   const [colorIdx, setColorIdx] = useState(0);
   const [delayChange, setDelayChange] = useState(5000);
   const [statusChange, setStatusChange] = useState(
-    localStorage.getItem("catStatus") || "418"
+    localStorage.getItem("catStatus") || "418" // <= browser can't seem to see it in Application section in Dev tools
   );
   const [delay, setDelay] = useState("");
   const [status, setStatus] = useState("");
