@@ -1,40 +1,50 @@
-import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-
-import COLORS from './data/colors.json';
-import VALID_STATUS_CODES from './data/validStatusCodes.json';
+import { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+//import COLORS from "./data/colors.json";
+//import VALID_STATUS_CODES from "./data/validStatusCodes.json";
+import { colors, codes } from "./data/data.js";
 
 const Cat = () => {
   const history = useHistory();
   const [colorIdx, setColorIdx] = useState(0);
   const [delayChange, setDelayChange] = useState(5000);
-  const [statusChange, setStatusChange] = useState('418');
-  const [delay, setDelay] = useState('');
-  const [status, setStatus] = useState('');
+  const [statusChange, setStatusChange] = useState("418");
+  const [delay, setDelay] = useState("");
+  const [status, setStatus] = useState("");
+  // const [colorNum, setColorNum] = useState(0); <= yhis is like the colorIdx
 
+  //let chat gpt exlain this hook below
+  useEffect(() => {
+    const colorInterval = setInterval(() => {
+      setColorIdx((prevNum) => ++prevNum % colors.length);
+    }, 5000);
 
+    return () => clearInterval(colorInterval);
+  }, []);
+
+  // maybe this too
   const handleDelaySubmit = (e) => {
     e.preventDefault();
 
     if (delay < 1 || delay > 10) {
-      alert('Please enter a delay from 1 through 10!');
+      alert("Please enter a delay from 1 through 10!");
       return;
     }
 
     setDelayChange(Number(delay) * 1000);
-    setDelay('');
+    setDelay("");
   };
 
   const handleStatusSubmit = (e) => {
     e.preventDefault();
 
-    if (status === '') {
-      alert('Please Enter A Code');
+    if (status === "") {
+      alert("Please Enter A Code");
       setStatusChange(404);
       return;
     }
 
-    if (!VALID_STATUS_CODES.includes(Number(status))) {
+    if (!codes.includes(Number(status))) {
       alert(
         `Code ${status} might exist, but it is not a proper Cat Status code.`
       );
@@ -43,24 +53,21 @@ const Cat = () => {
     }
 
     setStatusChange(status);
-    setStatus('');
+    setStatus("");
   };
 
   return (
     <div
       className="cat-container"
       style={{
-        backgroundColor: COLORS[colorIdx],
-        transition: 'background-color 1s',
+        backgroundColor: colors[colorIdx],
+        transition: "background-color 1s"
       }}
     >
       <h1>Cat Status</h1>
-      <button onClick={() => history.push('/')}>Home</button>
+      <button onClick={() => history.push("/")}>Home</button>
       <div className="image-container">
-        <img
-          src={`https://http.cat/${statusChange}`}
-          alt="404"
-        />
+        <img src={`https://http.cat/${statusChange}`} alt="404" />
       </div>
       <form onSubmit={handleDelaySubmit}>
         <label htmlFor="dStatus">
@@ -68,7 +75,7 @@ const Cat = () => {
             type="number"
             id="dStatus"
             onChange={(e) => {
-              setDelay(e.target.value)
+              setDelay(e.target.value);
             }}
             placeholder="delay in seconds"
             value={delay}
