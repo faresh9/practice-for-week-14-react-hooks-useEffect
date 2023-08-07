@@ -8,7 +8,9 @@ const Cat = () => {
   const history = useHistory();
   const [colorIdx, setColorIdx] = useState(0);
   const [delayChange, setDelayChange] = useState(5000);
-  const [statusChange, setStatusChange] = useState("418");
+  const [statusChange, setStatusChange] = useState(
+    localStorage.getItem("catStatus") || "418"
+  );
   const [delay, setDelay] = useState("");
   const [status, setStatus] = useState("");
   // const [colorNum, setColorNum] = useState(0); <= yhis is like the colorIdx
