@@ -24,6 +24,18 @@ const Cat = () => {
     return () => clearInterval(colorInterval);
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("catStatus", statusChange);
+  }, [statusChange]);
+
+  useEffect(() => {
+    const colorInterval = setInterval(() => {
+      setColorIdx((prevNum) => ++prevNum % colors.length);
+    }, 300);
+
+    return () => clearInterval(colorInterval);
+  }, []);
+
   // maybe this too
   const handleDelaySubmit = (e) => {
     e.preventDefault();
