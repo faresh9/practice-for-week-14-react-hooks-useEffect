@@ -36,6 +36,20 @@ const Cat = () => {
     return () => clearInterval(colorInterval);
   }, []);
 
+  useEffect(() => {
+    if (statusChange === "") {
+      alert("Please Enter A Code");
+      setStatusChange("404");
+      return;
+    }
+    if (!codes.includes(Number(statusChange))) {
+      alert(
+        `Code ${statusChange} might exist, but it is not a proper Cat Status code.`
+      );
+    }
+    setStatusChange("404");
+  }, [statusChange]);
+
   // maybe this too
   const handleDelaySubmit = (e) => {
     e.preventDefault();
